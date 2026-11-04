@@ -1,18 +1,12 @@
+/* eslint-env jest */
 /**
  * Unit tests for the index.js
  */
 // index.test.js
-describe("index.js", () => {
-  it("greet function returns Hello world!", () => {
-    const greet = require("../src/index");
+describe('index.js', () => {
+  it('greet function returns Hello world!', () => {
+    const greet = require('../src/index')
 
-    expect(greet()).toBe("Hello world! DDC24");
-  });
-});
-
-describe("index.js", () => {
-  it("greet function returns Hello world!", () => {
-    const greet = require("../src/index");
-    expect(greet()).toBe("Hello world!");
-  });
-});
+    expect(greet()).toBe('Hello world! DDC24')
+  })
+})

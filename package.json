@@ -1,5 +1,5 @@
 {
-  "name": "@wulfland/package-recipe",
+  "name": "@mtisynergist08/package-recipe",
   "version": "1.0.0",
   "description": "This is a package to demo releasing in GitHub.",
   "main": "index.js",
@@ -8,10 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wulfland/package-recipe.git"
+    "url": "git+https://github.com/mtisynergist08/docker_runner.git"
   },
   "author": "Michael Kaufmann",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
+  },
   "jest": {
     "verbose": true,
     "coverageReporters": [
@@ -31,9 +35,13 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/wulfland/package-recipe/issues"
+    "url": "https://github.com/mtisynergist08/docker_runner/issues"
   },
-  "homepage": "https://github.com/wulfland/package-recipe#readme",
+  "homepage": "https://github.com/mtisynergist08/docker_runner#readme",
+  "overrides": {
+    "glob": "^14.0.2",
+    "minimatch": "^11.0.4"
+  },
   "devDependencies": {
     "eslint": "^8.56.0",
     "eslint-config-standard": "^17.1.0",
