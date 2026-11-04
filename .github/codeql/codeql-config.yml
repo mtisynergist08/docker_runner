@@ -1,0 +1,11 @@
+name: "CodeQL config"
+
+# Only analyse the hand-written sources. The coverage/ directory holds the
+# generated Istanbul report, which npm test writes into the workspace before
+# CodeQL runs and which is not part of the repository.
+paths:
+  - src
+  - __tests__
+paths-ignore:
+  - coverage
+  - node_modules
