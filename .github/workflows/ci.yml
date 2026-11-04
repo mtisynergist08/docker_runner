@@ -68,6 +68,29 @@ jobs:
           echo "## Code Coverage v${{ matrix.node-version }}" >> "$GITHUB_STEP_SUMMARY"
           echo "${{ steps.coverage.outputs.markdownReport }}" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Add an index page for the published site
+        if: ${{ matrix.node-version == env.MAIN_VERSION }}
+        run: |
+          cat > coverage/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>docker_runner coverage</title>
+            </head>
+            <body>
+              <h1>docker_runner</h1>
+              <p>Code coverage for the default branch.</p>
+              <ul>
+                <li><a href="lcov-report/index.html">Coverage report (HTML)</a></li>
+                <li><a href="coverage.txt">Coverage summary (text)</a></li>
+                <li><a href="badge.svg">Coverage badge (SVG)</a></li>
+              </ul>
+            </body>
+          </html>
+          EOF
+
       - name: Upload page artifacts
         if: ${{ matrix.node-version == env.MAIN_VERSION }}
         uses: actions/upload-pages-artifact@v5
@@ -101,7 +124,7 @@ jobs:
 
     environment:
       name: github-pages
-      url: "${{ steps.deployment.outputs.page_url }}lcov-report"
+      url: "${{ steps.deployment.outputs.page_url }}"
 
     steps:
       - name: Setup Pages
