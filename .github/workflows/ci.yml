@@ -11,6 +11,9 @@ jobs:
     permissions:
         contents: read
         pull-requests: write
+        security-events: write
+    env:
+      MAIN_VERSION: "21.x"
 
     strategy:
       matrix:
@@ -64,6 +67,47 @@ jobs:
         run: |
           echo "## Code Coverage v${{ matrix.node-version }}" >> "$GITHUB_STEP_SUMMARY"
           echo "${{ steps.coverage.outputs.markdownReport }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload page artifacts
+        if: ${{ matrix.node-version == env.MAIN_VERSION }}
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: coverage
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: 'javascript-typescript'
+          queries: security-and-quality
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:javascript-typescript"
+
+  deploy:
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: build
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+
+    permissions:
+        contents: read
+        pages: write
+        id-token: write
+
+    environment:
+      name: github-pages
+      url: "${{ steps.deployment.outputs.page_url }}lcov-report"
+
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
 
   publish:
     if: ${{ github.ref == 'refs/heads/main' }}
